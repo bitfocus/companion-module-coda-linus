@@ -1,0 +1,22 @@
+{
+	"name": "coda-linus",
+	"version": "1.0.0",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/bitfocus/companion-module-coda-linus.git"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"@companion-module/base": "~1.11.3"
+	},
+	"devDependencies": {
+		"@companion-module/tools": "~2.1.0",
+		"eslint": "^9.14.0"
+	},
+	"packageManager": "yarn@4.5.1"
+}
