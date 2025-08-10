@@ -189,6 +189,7 @@ class CodaLinus extends InstanceBase {
 						this.checkFeedbacks('muteAllFeedback')
 					}
 					this.log('debug', `${JSON.stringify(this.muteState)}`)
+					break
 				case 'get_snapshot_folders':
 					break
 				case 'get_snapshot_files':
