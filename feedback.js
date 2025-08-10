@@ -11,20 +11,9 @@ export function updateFeedbacks() {
 			color: combineRgb(0, 0, 0),
 			bgcolor: combineRgb(0, 204, 0),
 		},
-		options: [
-			{
-				type: 'dropdown',
-				label: 'Standby State',
-				id: 'feedbackStandbyState',
-				default: true,
-				choices: [
-					{ id: true, label: 'Enabled' },
-					{ id: false, label: 'Disabled' },
-				],
-			},
-		],
+		options: [],
 		callback: ({ options }) => {
-			if (this.standbyState === options.feedbackStandbyState) {
+			if (this.standbyState === true) {
 				return true
 			} else {
 				return false
@@ -66,6 +55,29 @@ export function updateFeedbacks() {
 		],
 		callback: ({ options }) => {
 			if (this.muteState[options.feedbackMuteChannel] === options.feedbackMuteState) {
+				return true
+			} else {
+				return false
+			}
+		},
+	}
+
+	feedbacks['muteAllFeedback'] = {
+		type: 'boolean',
+		name: 'Mute All Status',
+		description: 'Indicates all channels are muted',
+		defaultSyle: {
+			color: combineRgb(0, 0, 0),
+			bgcolor: combineRgb(0, 204, 0),
+		},
+		options: [],
+		callback: ({ options }) => {
+			if (
+				this.muteState[1] === true &&
+				this.muteState[2] === true &&
+				this.muteState[3] === true &&
+				this.muteState[4] === true
+			) {
 				return true
 			} else {
 				return false
