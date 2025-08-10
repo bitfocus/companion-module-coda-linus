@@ -6,10 +6,10 @@ export function updatePresets() {
 	presets['standby'] = {
 		type: 'button',
 		category: 'Power',
-		name: 'Stanby',
+		name: 'Standby',
 		style: {
 			text: 'Standby',
-			size: '24',
+			size: '14',
 			bgcolor: combineRgb(0, 0, 0),
 			color: combineRgb(255, 255, 255),
 		},
@@ -37,7 +37,18 @@ export function updatePresets() {
 				up: [],
 			},
 		],
-		feedbacks: [],
+		feedbacks: [
+			{
+				feedbackId: 'standbyFeedback',
+				options: {
+					feedbackStandbyState: true,
+				},
+				style: {
+					bgcolor: combineRgb(0, 128, 0),
+					color: combineRgb(255, 255, 255),
+				},
+			},
+		],
 	}
 
 	presets['muteAll'] = {
@@ -74,7 +85,16 @@ export function updatePresets() {
 				up: [],
 			},
 		],
-		feedbacks: [],
+		feedbacks: [
+			{
+				feedbackId: 'muteAllFeedback',
+				options: {},
+				style: {
+					bgcolor: combineRgb(0, 128, 0),
+					color: combineRgb(255, 255, 255),
+				},
+			},
+		],
 	}
 
 	this.setPresetDefinitions(presets)
