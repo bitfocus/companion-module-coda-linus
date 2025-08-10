@@ -95,7 +95,7 @@ class CodaLinus extends InstanceBase {
 		if (this.config.polling === true) {
 			console.log('Starting polling')
 			this.poll = true
-			this.timer = setInterval(this.dataPoller.bind(this), 1000)
+			this.timer = setInterval(this.dataPoller.bind(this), 2000)
 		} else {
 			this.poll = false
 			if (this.timer) {
