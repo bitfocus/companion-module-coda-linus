@@ -155,30 +155,40 @@ class CodaLinus extends InstanceBase {
 		if ('command' in data) {
 			switch (data.command) {
 				case 'get_device_info':
+					// Example Reply: {"command": "get_device_info", "hw_addr": "04:89:5B:6D:E2:DA", "ip_addr":"192.168.1.30", "ip_mask": "255.255.255.0", "model": "LINUS6.4", "serial": "LI24110021","sw_version": "V1.3", "hw_version": "V1.1", "desc": "LINUS"}
 					break
 				case 'set_standby':
 				case 'get_standby':
+					// Example Reply: {"standby": true, "status": "OK", "command": "set_standby"}
+					// Example Reply: {"standby": true, "status": "OK", "command": "get_standby"}
 					this.log('debug', `get/set standby: ${data.standby}`)
 					this.standbyState = data.standby
 					this.checkFeedbacks('standbyFeedback')
 					break
 				case 'set_mute_all':
-					this.log('debug', `mute all: ${data.enable}`)
-					if (data.enable == true) {
+					// Example Reply: {"mute": true, "status": "OK", "command": "set_mute_all"}
+					this.log('debug', `mute all: ${data.mute}`)
+					if (data.mute == true) {
 						this.updateMuteStatus(true)
-					} else if (data.enable == false) {
+					} else if (data.mute == false) {
 						this.updateMuteStatus(false)
 					} else {
 						this.updateMuteStatus(null)
 					}
 					this.checkFeedbacks('muteFeedback')
+					this.checkFeedbacks('muteAllFeedback')
 					break
 				case 'set_channel_mute':
 				case 'get_channel_mute':
+					// Example Reply: {"channel": 3, "mute": true, "status": "OK", "command": "set_channel_mute"}
+					// Example Reply: {"channel": 1, "mute": true, "status": "OK", "command": "get_channel_mute"}
 					this.log('debug', `get/set mute: ${data.channel} : ${data.mute}`)
-					this.muteState[data.channel] = data.mute
+					if (data.channel != undefined && data.mute != undefined) {
+						this.muteState[data.channel] = data.mute
+						this.checkFeedbacks('muteFeedback')
+						this.checkFeedbacks('muteAllFeedback')
+					}
 					this.log('debug', `${JSON.stringify(this.muteState)}`)
-					this.checkFeedbacks('muteFeedback')
 				case 'get_snapshot_folders':
 					break
 				case 'get_snapshot_files':
