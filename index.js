@@ -252,10 +252,10 @@ class CodaLinus extends InstanceBase {
 			this.log('debug', 'dataPoller - Socket not connected')
 		}
 	}
-	
+
 	updateMuteStatus(value) {
 		Object.keys(this.muteState).forEach((item) => {
-				this.muteState[item] = value
+			this.muteState[item] = value
 		})
 	}
 }

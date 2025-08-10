@@ -2,7 +2,7 @@ import { combineRgb } from '@companion-module/base'
 
 export function updateFeedbacks() {
 	let feedbacks = {}
-	
+
 	feedbacks['standbyFeedback'] = {
 		type: 'boolean',
 		name: 'Amplifier Standby Status',
@@ -31,7 +31,7 @@ export function updateFeedbacks() {
 			}
 		},
 	}
-	
+
 	feedbacks['muteFeedback'] = {
 		type: 'boolean',
 		name: 'Channel Mute Status',
@@ -72,6 +72,6 @@ export function updateFeedbacks() {
 			}
 		},
 	}
-	
+
 	this.setFeedbackDefinitions(feedbacks)
 }
