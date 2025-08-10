@@ -91,7 +91,7 @@ class CodaLinus extends InstanceBase {
 
 		this.initUDP()
 
-		// poll every second
+		// poll every 2 seconds
 		if (this.config.polling === true) {
 			console.log('Starting polling')
 			this.poll = true
@@ -219,7 +219,7 @@ class CodaLinus extends InstanceBase {
 			this.initUDP()
 		}
 
-		// poll every 2 second
+		// poll every 2 seconds
 		if (this.config.polling === true) {
 			console.log('Starting polling')
 			this.poll = true
