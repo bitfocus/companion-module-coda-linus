@@ -44,40 +44,35 @@ export function updateActions() {
 	}
 
 	actions['muteChannels'] = {
-		name: 'Mute Channels',
+		name: 'Mute Single Channel',
 		options: [
 			{
-				id: '1',
-				type: 'checkbox',
-				label: 'Channel 1',
-				default: true,
+				id: 'channel',
+				type: 'dropdown',
+				label: 'Channel',
+				choices: [
+					{ id: '1', label: '1' },
+					{ id: '2', label: '2' },
+					{ id: '3', label: '3' },
+					{ id: '4', label: '4' },
+				],
+				default: '1',
 			},
 			{
-				id: '2',
-				type: 'checkbox',
-				label: 'Channel 2',
-				default: true,
-			},
-			{
-				id: '3',
-				type: 'checkbox',
-				label: 'Channel 3',
-				default: true,
-			},
-			{
-				id: '4',
-				type: 'checkbox',
-				label: 'Channel 4',
+				id: 'muteState',
+				type: 'dropdown',
+				label: 'Mute',
+				choices: [
+					{ id: true, label: 'Enable' },
+					{ id: false, label: 'Disable' },
+				],
 				default: true,
 			},
 		],
 		callback: async ({ options }) => {
 			// Message Format: {"command":"set_channel_mute", "channel":Channel number (Number),"enable":true/false (Boolean)}
-			for (const ch in options) {
-				// console.log(ch)
-				let cmd = '{"command":"set_channel_mute", "channel":' + ch + ', "enable":' + options[ch] + '}'
-				await this.sendCommand(cmd)
-			}
+			let cmd = '{"command":"set_channel_mute", "channel":' + options.channel + ', "enable":' + options.muteState + '}'
+			await this.sendCommand(cmd)
 		},
 	}
 
