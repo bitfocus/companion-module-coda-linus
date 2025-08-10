@@ -69,10 +69,18 @@ class CodaLinus extends InstanceBase {
 
 		this.config = config
 		this.command = null
-		this.standby = []
-		this.mute = []
+		this.standbyState = undefined
+		this.muteState = { 1: null, 2: null, 3: null, 4: null }
 		this.timer = undefined
 		this.poll = false
+		this.pollIndex = 0
+		this.pollCommands = [
+			{ command: 'get_standby' },
+			{ command: 'get_channel_mute', channel: 1 },
+			{ command: 'get_channel_mute', channel: 2 },
+			{ command: 'get_channel_mute', channel: 3 },
+			{ command: 'get_channel_mute', channel: 4 },
+		]
 
 		console.log(this.config)
 
@@ -128,15 +136,61 @@ class CodaLinus extends InstanceBase {
 			})
 
 			this.socket.on('data', (msg) => {
-				console.log('received data')
-				this.log('debug', 'Received Data: ' + msg.toString('utf-8', 0, msg.length))
+				// console.log('received data')
+				// this.log('debug', 'Received Data: ' + msg.toString('utf-8', 0, msg.length))
+				let response
+				try {
+					response = JSON.parse(msg)
+					this.processDeviceInformation(response)
+				} catch (e) {
+					this.log('warning', e.message)
+				}
 			})
-
 		}
 	}
 
 	processDeviceInformation(data) {
-		console.log('device information process : ' + data)
+		// console.log('device information process')
+		// this.log('debug', JSON.stringify(data))
+		if ('command' in data) {
+			switch (data.command) {
+				case 'get_device_info':
+					break
+				case 'set_standby':
+				case 'get_standby':
+					this.log('debug', `get/set standby: ${data.standby}`)
+					this.standbyState = data.standby
+					this.checkFeedbacks('standbyFeedback')
+					break
+				case 'set_mute_all':
+					this.log('debug', `mute all: ${data.enable}`)
+					if (data.enable == true) {
+						this.updateMuteStatus(true)
+					} else if (data.enable == false) {
+						this.updateMuteStatus(false)
+					} else {
+						this.updateMuteStatus(null)
+					}
+					this.checkFeedbacks('muteFeedback')
+					break
+				case 'set_channel_mute':
+				case 'get_channel_mute':
+					this.log('debug', `get/set mute: ${data.channel} : ${data.mute}`)
+					this.muteState[data.channel] = data.mute
+					this.log('debug', `${JSON.stringify(this.muteState)}`)
+					this.checkFeedbacks('muteFeedback')
+				case 'get_snapshot_folders':
+					break
+				case 'get_snapshot_files':
+					break
+				case 'get_snapshot_last_loaded':
+					break
+				default:
+					this.log('debug', `Unknown response command: ${JSON.stringify(data)}`)
+			}
+		} else {
+			this.log('warn', 'no command in message from device')
+		}
 	}
 
 	async configUpdated(config) {
@@ -154,11 +208,11 @@ class CodaLinus extends InstanceBase {
 			this.initUDP()
 		}
 
-		// poll every second
+		// poll every 2 second
 		if (this.config.polling === true) {
 			console.log('Starting polling')
 			this.poll = true
-			this.timer = setInterval(this.dataPoller.bind(this), 1000)
+			this.timer = setInterval(this.dataPoller.bind(this), 2000)
 		} else {
 			console.log('Stop polling')
 			this.poll = false
@@ -174,11 +228,11 @@ class CodaLinus extends InstanceBase {
 		if (cmd !== undefined) {
 			if (this.socket !== undefined && !this.socket.isDestroyed) {
 				await this.socket
-				.send(cmd)
-				.then(() => {})
-				.catch((error) => {
-					this.log('warn', 'Error sending message ' + error)
-				})
+					.send(cmd)
+					.then(() => {})
+					.catch((error) => {
+						this.log('warn', 'Error sending message ' + error)
+					})
 			} else {
 				this.log('warn', 'Socket not connected')
 			}
@@ -187,16 +241,22 @@ class CodaLinus extends InstanceBase {
 
 	async dataPoller() {
 		if (this.socket !== undefined && !this.socket.isDestroyed && this.poll) {
-			// Message Format: {"command":"get_standby"}
-			// Message Format: {"command":"get_channel_mute", "channel":Channel number (Number)}
-			await this.sendCommand('{"command":"get_standby"}')
-			await this.sendCommand('{"command":"get_channel_mute", "channel":1}')
-			await this.sendCommand('{"command":"get_channel_mute", "channel":2}')
-			await this.sendCommand('{"command":"get_channel_mute", "channel":3}')
-			await this.sendCommand('{"command":"get_channel_mute", "channel":4}')
+			let cmd = this.pollCommands[this.pollIndex]
+			await this.sendCommand(JSON.stringify(cmd))
+			if (this.pollIndex < this.pollCommands.length - 1) {
+				this.pollIndex++
+			} else {
+				this.pollIndex = 0
+			}
 		} else {
 			this.log('debug', 'dataPoller - Socket not connected')
 		}
+	}
+	
+	updateMuteStatus(value) {
+		Object.keys(this.muteState).forEach((item) => {
+				this.muteState[item] = value
+		})
 	}
 }
 
