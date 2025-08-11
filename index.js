@@ -68,7 +68,6 @@ class CodaLinus extends InstanceBase {
 		console.log('init Coda Linus')
 
 		this.config = config
-		this.command = null
 		this.standbyState = undefined
 		this.muteState = { 1: null, 2: null, 3: null, 4: null }
 		this.timer = undefined
