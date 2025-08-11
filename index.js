@@ -107,7 +107,7 @@ class CodaLinus extends InstanceBase {
 	}
 
 	initUDP() {
-		console.log('initUDP ' + this.config.host + ':' + this.config.port)
+		console.log(`initUDP ${this.config.host}:${this.config.port}`)
 
 		if (this.socket !== undefined) {
 			this.socket.destroy()
@@ -119,13 +119,12 @@ class CodaLinus extends InstanceBase {
 			this.socket = new UDPHelper(this.config.host, this.config.port)
 
 			this.socket.on('status_change', (status, message) => {
-				this.log('info', 'UDP status change: ' + status)
+				this.log('info', `UDP status change: ${status}`)
 				this.updateStatus(status, message)
 			})
 
 			this.socket.on('error', (err) => {
-				console.log('UDP error', err)
-				this.log('error', 'Network error: ' + err.message)
+				this.log('error', `Network error: ${err.message}`)
 				this.updateStatus(InstanceStatus.ConnectionFailure, err.message)
 				this.poll = false
 			})
@@ -137,7 +136,6 @@ class CodaLinus extends InstanceBase {
 
 			this.socket.on('data', (msg) => {
 				// console.log('received data')
-				// this.log('debug', 'Received Data: ' + msg.toString('utf-8', 0, msg.length))
 				let response
 				try {
 					response = JSON.parse(msg)
@@ -235,14 +233,14 @@ class CodaLinus extends InstanceBase {
 	}
 
 	async sendCommand(cmd) {
-		this.log('debug', 'sending: ' + cmd)
+		this.log('debug', `sending: ${cmd}`)
 		if (cmd !== undefined) {
 			if (this.socket !== undefined && !this.socket.isDestroyed) {
 				await this.socket
 					.send(cmd)
 					.then(() => {})
 					.catch((error) => {
-						this.log('warn', 'Error sending message ' + error)
+						this.log('warn', `Error sending message ${error}`)
 					})
 			} else {
 				this.log('warn', 'Socket not connected')
