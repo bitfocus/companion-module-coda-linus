@@ -153,6 +153,8 @@ class CodaLinus extends InstanceBase {
 			switch (data.command) {
 				case 'get_device_info':
 					// Example Reply: {"command": "get_device_info", "hw_addr": "04:89:5B:6D:E2:DA", "ip_addr":"192.168.1.30", "ip_mask": "255.255.255.0", "model": "LINUS6.4", "serial": "LI24110021","sw_version": "V1.3", "hw_version": "V1.1", "desc": "LINUS"}
+					this.log('debug', `device info: ${JSON.stringify(data)}`)
+					this.setVariableValues(data)
 					break
 				case 'set_standby':
 				case 'get_standby':
