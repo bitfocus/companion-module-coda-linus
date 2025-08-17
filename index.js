@@ -81,7 +81,7 @@ class CodaLinus extends InstanceBase {
 			{ command: 'get_channel_mute', channel: 4 },
 		]
 
-		this.log('debug', this.config)
+		this.log('debug', `${JSON.stringify(this.config)}`)
 
 		this.updateActions()
 		this.updateVariables()
