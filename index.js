@@ -183,8 +183,7 @@ class CodaLinus extends InstanceBase {
 					this.log('debug', `get/set mute: ${data.channel} : ${data.mute}`)
 					if (data.channel != undefined && data.mute != undefined) {
 						this.muteState[data.channel] = data.mute
-						this.checkFeedbacks('muteFeedback')
-						this.checkFeedbacks('muteAllFeedback')
+						this.checkFeedbacks('muteFeedback', 'muteAllFeedback')
 					}
 					this.log('debug', `${JSON.stringify(this.muteState)}`)
 					break
