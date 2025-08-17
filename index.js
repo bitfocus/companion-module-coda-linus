@@ -61,11 +61,11 @@ class CodaLinus extends InstanceBase {
 			this.socket.destroy()
 		}
 
-		console.log('destroy', this.id)
+		this.log('debug', `Destroy module ${this.id}`)
 	}
 
 	async init(config) {
-		console.log('init Coda Linus')
+		this.log('debug', 'init Coda Linus')
 
 		this.config = config
 		this.standbyState = undefined
@@ -81,7 +81,7 @@ class CodaLinus extends InstanceBase {
 			{ command: 'get_channel_mute', channel: 4 },
 		]
 
-		console.log(this.config)
+		this.log('debug', this.config)
 
 		this.updateActions()
 		this.updateVariables()
@@ -92,7 +92,7 @@ class CodaLinus extends InstanceBase {
 
 		// poll every 2 seconds
 		if (this.config.polling === true) {
-			console.log('Starting polling')
+			this.log('debug', 'Starting polling')
 			this.poll = true
 			this.timer = setInterval(this.dataPoller.bind(this), 2000)
 		} else {
@@ -101,12 +101,12 @@ class CodaLinus extends InstanceBase {
 				clearInterval(this.timer)
 				delete this.timer
 			}
-			console.log('Stop polling')
+			this.log('debug', 'Stop polling')
 		}
 	}
 
 	initUDP() {
-		console.log(`initUDP ${this.config.host}:${this.config.port}`)
+		this.log('debug', `initUDP ${this.config.host}:${this.config.port}`)
 
 		if (this.socket !== undefined) {
 			this.socket.destroy()
@@ -129,12 +129,12 @@ class CodaLinus extends InstanceBase {
 			})
 
 			this.socket.on('listening', () => {
-				console.log('UDP Listening')
+				this.log('info', 'UDP Listening')
 				this.updateStatus(InstanceStatus.Ok)
 			})
 
 			this.socket.on('data', (msg) => {
-				// console.log('received data')
+				// this.log('debug', 'received data')
 				let response
 				try {
 					response = JSON.parse(msg)
@@ -147,7 +147,7 @@ class CodaLinus extends InstanceBase {
 	}
 
 	processDeviceInformation(data) {
-		// console.log('device information process')
+		// this.log('debug', 'device information process')
 		// this.log('debug', JSON.stringify(data))
 		if ('command' in data) {
 			switch (data.command) {
@@ -202,7 +202,7 @@ class CodaLinus extends InstanceBase {
 	}
 
 	async configUpdated(config) {
-		console.log('configUpdated')
+		this.log('debug', 'Config updated')
 
 		let resetConnection = false
 
@@ -218,11 +218,11 @@ class CodaLinus extends InstanceBase {
 
 		// poll every 2 seconds
 		if (this.config.polling === true) {
-			console.log('Starting polling')
+			this.log('info', 'Starting polling')
 			this.poll = true
 			this.timer = setInterval(this.dataPoller.bind(this), 2000)
 		} else {
-			console.log('Stop polling')
+			this.log('info', 'Stop polling')
 			this.poll = false
 			if (this.timer) {
 				clearInterval(this.timer)
