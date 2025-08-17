@@ -174,8 +174,7 @@ class CodaLinus extends InstanceBase {
 					} else {
 						this.updateMuteStatus(null)
 					}
-					this.checkFeedbacks('muteFeedback')
-					this.checkFeedbacks('muteAllFeedback')
+					this.checkFeedbacks('muteFeedback', 'muteAllFeedback')
 					break
 				case 'set_channel_mute':
 				case 'get_channel_mute':
