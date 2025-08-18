@@ -201,6 +201,7 @@ class CodaLinus extends InstanceBase {
 					this.updateActions()
 					break
 				case 'get_snapshot_files':
+					this.log('debug', `snapshot files: '${data.files}'`)
 					break
 				case 'get_snapshot_last_loaded':
 					this.log('debug', `snapshot last loaded: ${data.snapshot_last_loaded}`)
