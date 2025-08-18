@@ -207,6 +207,9 @@ class CodaLinus extends InstanceBase {
 					this.log('debug', `snapshot last loaded: ${data.snapshot_last_loaded}`)
 					this.setVariableValues({ snapshot_last_loaded: data.snapshot_last_loaded })
 					break
+				case 'set_snapshot':
+					this.log('info', `snapshot set: ${data.response}`)
+					break
 				default:
 					this.log('debug', `Unknown response command: ${JSON.stringify(data)}`)
 			}
