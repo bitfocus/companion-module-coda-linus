@@ -154,20 +154,20 @@ class CodaLinus extends InstanceBase {
 			switch (data.command) {
 				case 'get_device_info':
 					// Example Reply: {"command": "get_device_info", "hw_addr": "04:89:5B:6D:E2:DA", "ip_addr":"192.168.1.30", "ip_mask": "255.255.255.0", "model": "LINUS6.4", "serial": "LI24110021","sw_version": "V1.3", "hw_version": "V1.1", "desc": "LINUS"}
-					this.log('debug', `device info: ${JSON.stringify(data)}`)
+					this.log('debug', `Device info: ${JSON.stringify(data)}`)
 					this.setVariableValues(data)
 					break
 				case 'set_standby':
 				case 'get_standby':
 					// Example Reply: {"standby": true, "status": "OK", "command": "set_standby"}
 					// Example Reply: {"standby": true, "status": "OK", "command": "get_standby"}
-					this.log('debug', `get/set standby: ${data.standby}`)
+					this.log('debug', `Get/set standby: ${data.standby}`)
 					this.standbyState = data.standby
 					this.checkFeedbacks('standbyFeedback')
 					break
 				case 'set_mute_all':
 					// Example Reply: {"mute": true, "status": "OK", "command": "set_mute_all"}
-					this.log('debug', `mute all: ${data.mute}`)
+					this.log('debug', `Mute all: ${data.mute}`)
 					if (data.mute == true) {
 						this.updateMuteStatus(true)
 					} else if (data.mute == false) {
@@ -181,7 +181,7 @@ class CodaLinus extends InstanceBase {
 				case 'get_channel_mute':
 					// Example Reply: {"channel": 3, "mute": true, "status": "OK", "command": "set_channel_mute"}
 					// Example Reply: {"channel": 1, "mute": true, "status": "OK", "command": "get_channel_mute"}
-					this.log('debug', `get/set mute: ${data.channel} : ${data.mute}`)
+					this.log('debug', `Get/set mute: ${data.channel} : ${data.mute}`)
 					if (data.channel != undefined && data.mute != undefined) {
 						this.muteState[data.channel] = data.mute
 						this.checkFeedbacks('muteFeedback', 'muteAllFeedback')
@@ -201,20 +201,20 @@ class CodaLinus extends InstanceBase {
 					this.updateActions()
 					break
 				case 'get_snapshot_files':
-					this.log('debug', `snapshot files: '${data.files}'`)
+					this.log('debug', `Snapshot files: '${data.files}'`)
 					break
 				case 'get_snapshot_last_loaded':
-					this.log('debug', `snapshot last loaded: ${data.snapshot_last_loaded}`)
+					this.log('debug', `Snapshot last loaded: ${data.snapshot_last_loaded}`)
 					this.setVariableValues({ snapshot_last_loaded: data.snapshot_last_loaded })
 					break
 				case 'set_snapshot':
-					this.log('info', `snapshot set: ${data.response}`)
+					this.log('info', `Snapshot set: ${data.response}`)
 					break
 				default:
 					this.log('debug', `Unknown response command: ${JSON.stringify(data)}`)
 			}
 		} else {
-			this.log('warn', 'no command in message from device')
+			this.log('warn', 'No command in message from device')
 		}
 	}
 
