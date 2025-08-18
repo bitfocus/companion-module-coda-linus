@@ -70,6 +70,7 @@ class CodaLinus extends InstanceBase {
 		this.config = config
 		this.standbyState = undefined
 		this.muteState = { 1: null, 2: null, 3: null, 4: null }
+		this.snapshotFolders = []
 		this.timer = undefined
 		this.poll = false
 		this.pollIndex = 0
@@ -188,6 +189,16 @@ class CodaLinus extends InstanceBase {
 					this.log('debug', `${JSON.stringify(this.muteState)}`)
 					break
 				case 'get_snapshot_folders':
+					this.log('debug', `Snapshot folders: ${JSON.stringify(data.folders)}`)
+					let folders = data.folders
+					if (folders.length > 0) {
+						this.snapshotFolders = []
+						for (let f = 0; f < folders.length; f++) {
+							this.snapshotFolders.push({ id: folders[f], label: folders[f].trim() })
+						}
+					}
+					// console.log(this.snapshotFolders)
+					this.updateActions()
 					break
 				case 'get_snapshot_files':
 					break

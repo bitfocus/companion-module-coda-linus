@@ -100,11 +100,12 @@ export function updateActions() {
 		name: 'Get Snapshot Files',
 		options: [
 			{
-				type: 'textinput',
+				type: 'dropdown',
 				label: 'Folder',
 				id: 'folder',
 				default: '',
 				useVariables: false,
+				choices: this.snapshotFolders,
 			},
 		],
 		callback: async ({ options }) => {
