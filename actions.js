@@ -114,6 +114,33 @@ export function updateActions() {
 			await this.sendCommand(cmd)
 		},
 	}
+	
+	actions['setSnapshot'] = {
+		name: 'Set Snapshot',
+		options: [
+			{
+				type: 'dropdown',
+				label: 'Folder',
+				id: 'folder',
+				default: '',
+				useVariables: false,
+				choices: this.snapshotFolders,
+			},
+			{
+				type: 'textinput',
+				label: 'File',
+				id: 'file',
+				default: '',
+				useVariables: false,
+			},
+		],
+		callback: async ({ options }) => {
+			// Message Format: {"command":"set_snapshot", "path":folder/file (String)}
+			let path = options.folder + '/' + options.file
+			let cmd = '{"command":"set_snapshot", "path":"' + path.padEnd(20) + '"}'
+			await this.sendCommand(cmd)
+		},
+	}
 
 	this.setActionDefinitions(actions)
 }
