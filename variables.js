@@ -32,6 +32,10 @@ export function updateVariables() {
 			name: 'Description',
 			variableId: 'desc',
 		},
+		{
+			name: 'Snapshot last loaded',
+			variableId: 'snapshot_last_loaded',
+		},
 	]
 	this.setVariableDefinitions(variables)
 }

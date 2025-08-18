@@ -86,6 +86,16 @@ export function updateActions() {
 		},
 	}
 
+	actions['getSnapshotLastLoaded'] = {
+		name: 'Get Snapshot Last Loaded',
+		options: [],
+		callback: async ({ options }) => {
+			// Message Format: {"command":"get_snapshot_last_loaded"}
+			let cmd = '{"command":"get_snapshot_last_loaded"}'
+			await this.sendCommand(cmd)
+		},
+	}
+
 	actions['getSnapshotFiles'] = {
 		name: 'Get Snapshot Files',
 		options: [
