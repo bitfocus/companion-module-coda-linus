@@ -19,3 +19,6 @@ This module will control the Coda Audio LINUS6.4 amplifier.
 
 ### Version 1.0.3
 This first release of the module.
+
+### Version 1.1.0
+Add support for snapshots
