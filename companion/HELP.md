@@ -7,6 +7,7 @@ This module will control the Coda Audio LINUS6.4 amplifier.
 * Standby on/off
 * Mute all on/off
 * Mute channels 1-4 on/off
+* Snapshot read folders, read files, set active
 
 ## Feedback
 * Standby state
@@ -17,8 +18,12 @@ This module will control the Coda Audio LINUS6.4 amplifier.
 * Standby
 * Mute all
 
+## Variables
+* Device information
+* Snapshot last loaded
+
 ### Version 1.0.3
 This first release of the module.
 
 ### Version 1.1.0
-Add support for snapshots
+Add support for variables and snapshots.
