@@ -44,7 +44,7 @@ export function updateFeedbacks() {
 			},
 			{
 				type: 'dropdown',
-				label: 'Channel',
+				label: 'Mute State',
 				id: 'feedbackMuteState',
 				default: true,
 				choices: [
